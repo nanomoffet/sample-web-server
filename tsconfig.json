@@ -14,9 +14,14 @@
     "isolatedModules": false,
     // Import non-ES modules as default imports.
     "esModuleInterop": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "lib": ["es6"],
+    "allowSyntheticDefaultImports": true
   },
   "include": [
     "src"
+  ],
+  "exclude": [
+    "node_modules"
   ]
 }
