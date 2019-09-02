@@ -1,0 +1,91 @@
+{
+  "name": "node-boilerplate",
+  "version": "1.0.0",
+  "description": "A Node.js boilerplate project",
+  "main": "index.js",
+  "scripts": {
+    "build": "babel src -d dist --extensions '.ts'",
+    "build:doc": "jsdoc2md --files ./src/**/*.ts --configure ./jsdoc2md.json > ./documentation/index.md",
+    "check-types": "tsc",
+    "docs": "jsdoc -c ./jsdoc.config.js",
+    "lint": "prettier --write ./src/**/*.ts && tsc --noEmit && eslint --ext .ts --quiet --fix ./src/**/*.ts",
+    "semantic-release": "semantic-release",
+    "serve": "node dist/index.js",
+    "start": "nodemon --exec babel-node src/index.ts --extensions '.ts'",
+    "test": "jest"
+  },
+  "release": {
+    "plugins": [
+      "@semantic-release/commit-analyzer",
+      "@semantic-release/release-notes-generator",
+      [
+        "@semantic-release/npm",
+        {
+          "npmPublish": false
+        }
+      ],
+      "@semantic-release/github"
+    ],
+    "prepare": [
+      "@semantic-release/changelog",
+      "@semantic-release/npm",
+      {
+        "path": "@semantic-release/git",
+        "assets": [
+          "package.json",
+          "package-lock.json",
+          "CHANGELOG.md"
+        ],
+        "message": "chore(release): ${nextRelease.version} [skip ci]nn${nextRelease.notes}"
+      }
+    ]
+  },
+  "keywords": [],
+  "author": "Michael Moffet",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/cli": "^7.5.5",
+    "@babel/core": "^7.5.5",
+    "@babel/node": "^7.5.5",
+    "@babel/plugin-proposal-class-properties": "^7.5.5",
+    "@babel/plugin-proposal-object-rest-spread": "^7.5.5",
+    "@babel/preset-env": "^7.5.5",
+    "@babel/preset-typescript": "^7.3.3",
+    "@commitlint/cli": "^8.1.0",
+    "@commitlint/config-conventional": "^8.1.0",
+    "@semantic-release/changelog": "^3.0.4",
+    "@semantic-release/git": "^7.0.16",
+    "@types/jest": "^24.0.18",
+    "@types/node": "^12.7.3",
+    "@typescript-eslint/eslint-plugin": "^2.0.0",
+    "@typescript-eslint/parser": "^2.0.0",
+    "babel-jest": "^24.9.0",
+    "better-docs": "^1.1.6",
+    "doctoc": "^1.4.0",
+    "eslint": "^6.3.0",
+    "eslint-config-prettier": "^6.1.0",
+    "eslint-plugin-prettier": "^3.1.0",
+    "husky": "^3.0.4",
+    "jest": "^24.9.0",
+    "jsdoc": "^3.6.3",
+    "jsdoc-babel": "^0.5.0",
+    "jsdoc-to-markdown": "^5.0.1",
+    "lint-staged": "^9.2.5",
+    "nodemon": "^1.19.1",
+    "prettier": "^1.18.2",
+    "semantic-release": "^15.13.24",
+    "ts-jest": "^24.0.2",
+    "typescript": "^3.6.2"
+  },
+  "dependencies": {
+    "chalk": "^2.4.2",
+    "dotenv": "^8.1.0"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "post-commit": "git update-index --again",
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
+  }
+}
